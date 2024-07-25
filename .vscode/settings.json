@@ -48,6 +48,8 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "cinttypes": "cpp",
-        "typeinfo": "cpp"
-    }
+        "typeinfo": "cpp",
+        "unordered_set": "cpp"
+    },
+    "cmake.sourceDirectory": "/home/cory/source/c_cpp/http_parser_cpp/src"
 }

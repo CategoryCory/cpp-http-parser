@@ -1,18 +1,23 @@
-#include <sstream>
+// #include <sstream>
 #include <string>
+#include <string_view>
 #include <vector>
 #include "string_utilities.h"
 
-STRING_UTILITIES_API std::vector<std::string> split_string(const std::string &str, char delimiter)
+STRING_UTILITIES_API string_vector split_string(std::string_view str, char delimiter)
 {
-    std::string token;
-    std::vector<std::string> tokens;
-    std::istringstream token_stream(str);
+    string_vector tokens;
+    size_t start = 0;
+    size_t end = str.find(delimiter);
 
-    while (std::getline(token_stream, token, delimiter))
+    while (end != std::string_view::npos)
     {
-        tokens.push_back(token);
+        tokens.emplace_back(str.substr(start, end - start));
+        start = end + 1;
+        end = str.find(delimiter, start);
     }
+
+    tokens.emplace_back(str.substr(start));
 
     return tokens;
 }
