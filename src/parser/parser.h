@@ -49,5 +49,6 @@ private:
     std::string m_method;
     std::string m_path;
     HttpVersion m_http_version;
+    string_map m_headers;
     static const string_set m_valid_http_methods;
 };

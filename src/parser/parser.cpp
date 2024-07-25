@@ -4,8 +4,6 @@
 #include "parser.h"
 #include "string_utilities.h"
 
-#include <iostream>
-
 HttpParser::HttpParser() : m_method(""), m_path(""), m_http_version() {}
 
 const string_set HttpParser::m_valid_http_methods = 
