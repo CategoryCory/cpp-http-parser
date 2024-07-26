@@ -21,6 +21,7 @@ enum class ParserStatusCode
     SUCCESS,
     INVALID_REQUEST,
     INVALID_METHOD,
+    MISSING_HEADER,
 };
 
 typedef struct 
@@ -45,6 +46,7 @@ public:
     std::string get_method() const;
     std::string get_path() const;
     HttpVersion get_version() const;
+    string_map get_headers() const;
 private:
     std::string m_method;
     std::string m_path;

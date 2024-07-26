@@ -17,3 +17,5 @@
 
 STRING_UTILITIES_API string_vector split_string(const std::string_view str, char delimiter);
 STRING_UTILITIES_API string_vector split_string_by_newline(const std::string_view str);
+STRING_UTILITIES_API std::string_view trim_whitespace(std::string_view str);
+STRING_UTILITIES_API bool is_empty_or_whitespace(std::string_view str);

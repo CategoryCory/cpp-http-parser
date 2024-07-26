@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -34,4 +35,23 @@ STRING_UTILITIES_API string_vector split_string_by_newline(const std::string_vie
     }
 
     return lines;
+}
+
+STRING_UTILITIES_API std::string_view trim_whitespace(std::string_view str)
+{
+    auto begin = str.begin();
+    auto end = str.end();
+
+    // Remove leading whitespace
+    while (begin != end && std::isspace(*begin)) ++begin;
+
+    // Remove trailing whitespace
+    while (begin != end && std::isspace(*(end - 1))) --end;
+
+    return std::string_view(begin, end - begin);
+}
+
+STRING_UTILITIES_API bool is_empty_or_whitespace(std::string_view str)
+{
+    return std::all_of(str.begin(), str.end(), [](unsigned char c) { return std::isspace(c); });
 }

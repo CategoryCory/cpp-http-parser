@@ -37,13 +37,38 @@ ParserStatusCode HttpParser::parse_request(const std::string &request)
     std::string version_prefix("HTTP/");
     if (!request_line_parts[2].starts_with(version_prefix)) return ParserStatusCode::INVALID_REQUEST;
     
-    auto slash_position = request_line_parts[2].find('/');
-    auto raw_version = request_line_parts[2].substr(slash_position + 1);
+    auto raw_version = request_line_parts[2].substr(version_prefix.length());
     string_vector version_parts = split_string(raw_version, '.');
     if (version_parts.size() != 2) return ParserStatusCode::INVALID_REQUEST;
 
     m_http_version.major = std::stoi(version_parts[0]);
     m_http_version.minor = std::stoi(version_parts[1]);
+
+    // Get headers
+    auto header_start = std::next(request_lines.begin(), 1);    // Headers begin on the second line
+    std::size_t header_end = 1;                                 // Keep track of where header section ends
+    for (auto it = header_start; it != request_lines.end(); ++it)
+    {
+        if (is_empty_or_whitespace(it->data())) break;     // A blank line indicates the end of the header section
+
+        // Split the header name from value
+        std::size_t header_split_pos = it->find(':');
+
+        if (header_split_pos != std::string::npos)
+        {
+            auto header_name = std::string_view(it->data(), header_split_pos);
+            auto header_value = std::string_view(it->data() + header_split_pos + 1, 
+                                                 it->size() - header_split_pos - 1);
+            header_value = trim_whitespace(header_value);
+
+            m_headers.emplace(header_name, header_value);
+        }
+
+        ++header_end;
+    }
+
+    // A host header is required for HTTP/1.1
+    if (m_headers.find("Host") == m_headers.end()) return ParserStatusCode::MISSING_HEADER;
 
     return ParserStatusCode::SUCCESS;
 }
@@ -66,4 +91,9 @@ std::string HttpParser::get_path() const
 HttpVersion HttpParser::get_version() const
 {
     return m_http_version;
+}
+
+string_map HttpParser::get_headers() const
+{
+    return m_headers;
 }
