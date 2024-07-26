@@ -4,7 +4,7 @@
 #include "parser.h"
 #include "string_utilities.h"
 
-HttpParser::HttpParser() : m_method(""), m_path(""), m_http_version() {}
+HttpParser::HttpParser() = default;
 
 const string_set HttpParser::m_valid_http_methods = 
 {
@@ -16,8 +16,14 @@ ParserStatusCode HttpParser::parse_request(const std::string &request)
     // Make sure request isn't empty
     if (request.empty()) return ParserStatusCode::INVALID_REQUEST;
 
+    // Split request into lines
+    string_vector request_lines = split_string_by_newline(request);
+
+    // A valid header must include at minimum a request line and a host header
+    if (request_lines.size() < 2) return ParserStatusCode::INVALID_REQUEST;
+
     // Split request line into method, path, and version
-    string_vector request_line_parts = split_string(request, ' ');
+    string_vector request_line_parts = split_string(request_lines[0], ' ');
     if (request_line_parts.size() != 3) return ParserStatusCode::INVALID_REQUEST;
 
     // Get request method

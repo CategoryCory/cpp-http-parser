@@ -15,4 +15,5 @@
     #define STRING_UTILITIES_API
 #endif
 
-STRING_UTILITIES_API string_vector split_string(std::string_view str, char delimiter);
+STRING_UTILITIES_API string_vector split_string(const std::string_view str, char delimiter);
+STRING_UTILITIES_API string_vector split_string_by_newline(const std::string_view str);

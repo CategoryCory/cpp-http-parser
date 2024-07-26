@@ -6,7 +6,7 @@
 int main()
 {
     HttpParser parser;
-    std::string request("GET /blog/posts/1234.html HTTP/1.1");
+    std::string request("GET /blog/posts/1234.html HTTP/1.1\r\nHost: www.sample.org\r\n\r\n");
     [[maybe_unused]] ParserStatusCode status_code = parser.parse_request(request);
 
     if (status_code == ParserStatusCode::SUCCESS)
