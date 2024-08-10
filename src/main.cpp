@@ -7,7 +7,6 @@
 int main()
 {
     HttpParser parser;
-    // std::string request("GET /blog/posts/1234.html HTTP/1.1\r\nHost: www.sample.org\r\n\r\n");
 
     std::string request("GET /blog/posts/1234 HTTP/1.1\r\n"
                         "Host: www.sample.com\r\n"
@@ -30,7 +29,6 @@ int main()
         std::cout << "Request path: " << parser.get_path() << "\n";
         std::cout << "Request HTTP version: " << parser.get_version().to_string() << "\n";
 
-        std::cout << "Headers:\r\n\r\n";
         for (const auto& kv_pair : parser.get_headers())
         {
             std::cout << kv_pair.first << ": " << kv_pair.second << "\n";
@@ -42,19 +40,4 @@ int main()
         std::cout << "An error occurred when processing the request.\n";
         return EXIT_SUCCESS;
     }
-
-    // std::string normal("Hello");
-    // std::string leading("    Hello");
-    // std::string trailing("Hello    ");
-    // std::string both("    Hello    ");
-
-    // auto trimmed_normal = trim_whitespace(normal);
-    // auto trimmed_leading = trim_whitespace(leading);
-    // auto trimmed_trailing = trim_whitespace(trailing);
-    // auto trimmed_both = trim_whitespace(both);
-
-    // std::cout << "Trimmed normal : --" << trimmed_normal << "--\n";
-    // std::cout << "Trimmed leading : --" << trimmed_leading << "--\n";
-    // std::cout << "Trimmed trailing : --" << trimmed_trailing << "--\n";
-    // std::cout << "Trimmed both : --" << trimmed_both << "--\n";
 }

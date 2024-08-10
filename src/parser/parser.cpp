@@ -78,22 +78,22 @@ bool HttpParser::is_valid_method(const std::string &method) const
     return m_valid_http_methods.find(method) != m_valid_http_methods.end();
 }
 
-std::string HttpParser::get_method() const
+const std::string_view HttpParser::get_method() const
 {
     return m_method;
 }
 
-std::string HttpParser::get_path() const
+const std::string_view HttpParser::get_path() const
 {
     return m_path;
 }
 
-HttpVersion HttpParser::get_version() const
+const HttpVersion& HttpParser::get_version() const
 {
     return m_http_version;
 }
 
-string_map HttpParser::get_headers() const
+const string_map& HttpParser::get_headers() const
 {
     return m_headers;
 }
